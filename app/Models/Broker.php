@@ -11,7 +11,12 @@ class Broker extends Model
     use HasFactory;
 
 
-    
+    /**
+     * @var string Model table name
+     */
+    protected $table = 'broker';
+
+
     /**
      * Create the relationship with Policy.
      *

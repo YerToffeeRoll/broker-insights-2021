@@ -10,6 +10,12 @@ class Policy extends Model
 {
     use HasFactory;
 
+
+    /**
+     * @var string Model table name
+     */
+    protected $table = 'policy';
+
         /**
      * The attributes that are mass assignable.
      *
