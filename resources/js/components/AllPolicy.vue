@@ -135,10 +135,10 @@
                                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-cool-gray-900">
 
                                         <router-link :to="{name: 'edit', params: { id: policy.id }}"
-                                            class="cursor-pointer bg-blue-600 hover:bg-blue-500 shadow-xl px-3 py-1 inline-block text-blue-100 hover:text-white rounded">
+                                            class="cursor-pointer bg-blue-600 hover:bg-blue-500 shadow-xl px-3 py-1 inline-block text-white hover:text-gray rounded">
                                             Edit</router-link>
                                         <button
-                                            class="cursor-pointer bg-red-600 hover:bg-gray-500 shadow-xl px-3 py-1 inline-block text-orange-100 hover:text-white rounded"
+                                            class="cursor-pointer bg-red-600 hover:bg-gray-500 shadow-xl px-3 py-1 inline-block text-white hover:text-gray rounded"
                                             @click="deletePolicy(policy.id)">Delete</button>
                                     </td>
                                 </tr>

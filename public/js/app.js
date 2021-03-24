@@ -1889,16 +1889,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -38309,7 +38299,7 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "mr-4 md:mr-8" }, [
-                _c("a", { attrs: { href: "#", rel: "home" } }, [
+                _c("a", { attrs: { href: "/", rel: "home" } }, [
                   _c(
                     "svg",
                     {
@@ -38429,29 +38419,6 @@ var render = function() {
           )
         ]
       ),
-      _vm._v(" "),
-      _vm.errors
-        ? _c(
-            "div",
-            {
-              staticClass:
-                "bg-red-500 text-white py-2 px-4 pr-0 rounded font-bold mb-4 shadow-lg"
-            },
-            _vm._l(_vm.errors, function(v, k) {
-              return _c(
-                "div",
-                { key: k },
-                _vm._l(v, function(error) {
-                  return _c("p", { key: error, staticClass: "text-sm" }, [
-                    _vm._v("\n      " + _vm._s(error) + "\n    ")
-                  ])
-                }),
-                0
-              )
-            }),
-            0
-          )
-        : _vm._e(),
       _vm._v(" "),
       _c("router-view")
     ],
@@ -38896,7 +38863,7 @@ var render = function() {
                               "router-link",
                               {
                                 staticClass:
-                                  "cursor-pointer bg-blue-600 hover:bg-blue-500 shadow-xl px-3 py-1 inline-block text-blue-100 hover:text-white rounded",
+                                  "cursor-pointer bg-blue-600 hover:bg-blue-500 shadow-xl px-3 py-1 inline-block text-white hover:text-gray rounded",
                                 attrs: {
                                   to: {
                                     name: "edit",
@@ -38915,7 +38882,7 @@ var render = function() {
                               "button",
                               {
                                 staticClass:
-                                  "cursor-pointer bg-red-600 hover:bg-gray-500 shadow-xl px-3 py-1 inline-block text-orange-100 hover:text-white rounded",
+                                  "cursor-pointer bg-red-600 hover:bg-gray-500 shadow-xl px-3 py-1 inline-block text-white hover:text-gray rounded",
                                 on: {
                                   click: function($event) {
                                     return _vm.deletePolicy(policy.id)
