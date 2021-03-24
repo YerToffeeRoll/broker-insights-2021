@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Policy;
+use App\Http\Resources\PolicyResource;
+use App\Http\Resources\PolicyCollection;
 
 class PolicyController extends Controller
 {
@@ -15,7 +17,7 @@ class PolicyController extends Controller
      */
     public function index()
     {
-        return Policy::all();
+        return new PolicyCollection(Policy::all());
     }
 
     /**
@@ -45,7 +47,7 @@ class PolicyController extends Controller
      */
     public function show(Policy $policy)
     {
-        return $policy;
+        return  new PolicyResource($policy);
     }
 
     /**
