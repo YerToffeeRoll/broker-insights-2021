@@ -1,30 +1,79 @@
 <template>
-    <div>
-        <h3 class="text-center">Edit Policy</h3>
+      <div class="rounded-lg">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <form @submit.prevent="updatePolicy">
-                <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" v-model="policy.customer_name">
+                    <div class="px-4 py-5 bg-white sm:p-6">
+                        <div class="-mx-3 md:w-full mb-6">
+                            <div class="md:w-full px-3">
+                                <h3 class="text-lg font-medium text-gray-900">Update Policy</h3>
+                            </div>
+                        </div>
+
+
+                       <div class="flex -mx-3 mt-10  w-full  mb-6 sm:rounded-lg">
+                            <div class="w-1/2  px-3">
+                                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="name">
+                                    Customer Name
+                                </label>
+                                <input
+                                    class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-md py-3 px-4 mb-3"
+                                    id="name" type="text" name="name" v-model="policy.customer_name" placeholder="Customer Name...." value="">
+                            </div>
+
+                            <div class=" w-1/2 px-3">
+                                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="customerAddress">
+                                    Customer Address
+                                </label>
+                                <input
+                                    class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-md py-3 px-4 mb-3"
+                                    id="customerAddress" type="text" name="customerAddress" v-model="policy.customer_address" placeholder="123 Street.... "
+                                    value="">
+                            </div>
+                        </div>
+
+                        <div class="-mx-3 md:w-full mb-6">
+                            <div class="md:w-full px-3">
+                                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="premium">
+                                    Premium
+                                </label>
+                                <input
+                                    class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-md py-3 px-4 mb-3"
+                                    id="premium" type="text" name="premium"  v-model="policy.premium" placeholder="£123.00" value="">
+                            </div>
+                        </div>
+
+
+                        <div class="-mx-3 md:w-full mb-6">
+                            <div class="md:w-full px-3">
+                                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="policyType">
+                                    Policy Type
+                                </label>
+                                <select
+                                    class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded"
+                                    id="policyType" v-model="policy.policy_type" >
+                                    <option>Public Liability</option>
+                                    <option>Motor Fleet</option>
+                                     <option>Motor Fleet</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="-mx-3 md:w-full mb-6">
+                            <div class="md:w-full px-3">
+                                <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="insurerName">
+                                    Insurer Name
+                                </label>
+                                <input
+                                    class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-md py-3 px-4 mb-3"
+                                    id="insurerName" type="text" name="insurerName"  v-model="policy.insurer_name" placeholder="Axa Insurance" value="">
+                            </div>
+                        </div>
+                        <button type="submit" class="cursor-pointer bg-blue-600 hover:bg-blue-500 shadow-xl px-5 py-2 inline-block text-blue-100 hover:text-white rounded">Update</button>
                     </div>
-                    <div class="form-group">
-                        <label>customer_address</label>
-                        <input type="text" class="form-control" v-model="policy.customer_address">
-                    </div>
-                    <div class="form-group">
-                        <label>premium</label>
-                        <input type="text" class="form-control" v-model="policy.premium">
-                    </div>
-                    <div class="form-group">
-                        <label>policy_type</label>
-                        <input type="text" class="form-control" v-model="policy.policy_type">
-                    </div>
-                      <div class="form-group">
-                        <label>insurer_name</label>
-                        <input type="text" class="form-control" v-model="policy.insurer_name">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Update</button>
+
+
+
                 </form>
             </div>
         </div>
