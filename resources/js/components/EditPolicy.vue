@@ -41,15 +41,15 @@
         created() {
             this.axios
                 .get(`/api/policies/${this.$route.params.id}`)
-                .then((res) => {
-                    this.policy = res.data;
+                .then((response) => {
+                    this.policy = response.data.data;
                 });
         },
         methods: {
             updatePolicy() {
                 this.axios
                     .patch(`/api/policies/${this.$route.params.id}`, this.policy)
-                    .then((res) => {
+                    .then((response) => {
                         this.$router.push({ name: 'home' });
                     });
             }

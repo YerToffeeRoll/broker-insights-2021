@@ -5,7 +5,7 @@
         <table class="table">
             <thead>
             <tr>
-    	  <th>Customer Name</th>
+    	        <th>Customer Name</th>
 				  <th>Customer Address</th>
 				  <th>Premium</th>
 				  <th>Policy Type</th>
@@ -40,10 +40,12 @@
             }
         },
         created() {
+
+           
             this.axios
                 .get('/api/policies')
                 .then(response => {
-                    this.policies = response.data;
+                    this.policies = response.data.data.client.policies;
                 });
         },
         methods: {
