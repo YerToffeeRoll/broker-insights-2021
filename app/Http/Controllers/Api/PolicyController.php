@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Policy;
 use App\Http\Resources\PolicyResource;
 use App\Http\Resources\PolicyCollection;
@@ -28,12 +29,23 @@ class PolicyController extends Controller
      */
     public function store(Request $request)
     {
+        $validator =  Validator::make($request->all(), [
+            'customer_name' => 'required',
+            'customer_address' => 'required',
+            'premium' => 'required|integer',
+            'policy_type' => 'required',
+            'insurer_name' => 'required',
+        ]);
 
-
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 401);
+        }
+        
+        
         $request->request->add(['broker_id' => '1']);
         $policy = Policy::create($request->all());
 
-        // 'customer_name', 'customer_address', 'premium', 'policy_type', 'insurer_name',
+        // 'customer_name', '', '', '', '',
 
 
         return response()->json($policy, 201);
@@ -59,6 +71,17 @@ class PolicyController extends Controller
      */
     public function update(Request $request,Policy $policy)
     {
+        $validator =  Validator::make($request->all(), [
+            'customer_name' => 'required',
+            'customer_address' => 'required',
+            'premium' => 'required|integer',
+            'policy_type' => 'required',
+            'insurer_name' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 401);
+        }
 
         $request->request->add(['broker_id' => '1']);
         $policy->update($request->all());

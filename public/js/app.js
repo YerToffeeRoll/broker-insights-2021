@@ -1890,6 +1890,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -2257,10 +2266,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      policy: {}
+      policy: {},
+      error_name: "",
+      error_address: "",
+      error_premium: "",
+      error_policy_type: "",
+      error_insurer: ""
     };
   },
   methods: {
@@ -2271,8 +2290,13 @@ __webpack_require__.r(__webpack_exports__);
         return _this.$router.push({
           name: 'home'
         });
-      })["catch"](function (err) {
-        return console.log(err);
+      })["catch"](function (error) {
+        console.error(error);
+        _this.error_name = error.response.data.error.customer_name;
+        _this.error_address = error.response.data.error.customer_address;
+        _this.error_premium = error.response.data.error.premium;
+        _this.error_policy_type = error.response.data.error.policy_type;
+        _this.error_insurer = error.response.data.error.insurer_name;
       })["finally"](function () {
         return _this.loading = false;
       });
@@ -2375,10 +2399,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      policy: {}
+      policy: {},
+      error_name: "",
+      error_address: "",
+      error_premium: "",
+      error_policy_type: "",
+      error_insurer: ""
     };
   },
   created: function created() {
@@ -2396,6 +2432,13 @@ __webpack_require__.r(__webpack_exports__);
         _this2.$router.push({
           name: 'home'
         });
+      })["catch"](function (error) {
+        console.error(error);
+        _this2.error_name = error.response.data.error.customer_name;
+        _this2.error_address = error.response.data.error.customer_address;
+        _this2.error_premium = error.response.data.error.premium;
+        _this2.error_policy_type = error.response.data.error.policy_type;
+        _this2.error_insurer = error.response.data.error.insurer_name;
       });
     }
   }
@@ -38387,6 +38430,29 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
+      _vm.errors
+        ? _c(
+            "div",
+            {
+              staticClass:
+                "bg-red-500 text-white py-2 px-4 pr-0 rounded font-bold mb-4 shadow-lg"
+            },
+            _vm._l(_vm.errors, function(v, k) {
+              return _c(
+                "div",
+                { key: k },
+                _vm._l(v, function(error) {
+                  return _c("p", { key: error, staticClass: "text-sm" }, [
+                    _vm._v("\n      " + _vm._s(error) + "\n    ")
+                  ])
+                }),
+                0
+              )
+            }),
+            0
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c("router-view")
     ],
     1
@@ -38964,7 +39030,15 @@ var render = function() {
                           )
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "small",
+                      {
+                        staticClass: " text-red-700 px-4 py-3 rounded relative"
+                      },
+                      [_vm._v(_vm._s(_vm.error_name) + " ")]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: " w-1/2 px-3" }, [
@@ -39013,7 +39087,15 @@ var render = function() {
                           )
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "small",
+                      {
+                        staticClass: " text-red-700 px-4 py-3 rounded relative"
+                      },
+                      [_vm._v(_vm._s(_vm.error_address) + " ")]
+                    )
                   ])
                 ]
               ),
@@ -39063,7 +39145,13 @@ var render = function() {
                         _vm.$set(_vm.policy, "premium", $event.target.value)
                       }
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "small",
+                    { staticClass: " text-red-700 px-4 py-3 rounded relative" },
+                    [_vm._v(_vm._s(_vm.error_premium) + " ")]
+                  )
                 ])
               ]),
               _vm._v(" "),
@@ -39128,6 +39216,12 @@ var render = function() {
                       _vm._v(" "),
                       _c("option", [_vm._v("Motor Fleet")])
                     ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "small",
+                    { staticClass: " text-red-700 px-4 py-3 rounded relative" },
+                    [_vm._v(_vm._s(_vm.error_policy_type) + " ")]
                   )
                 ])
               ]),
@@ -39180,7 +39274,13 @@ var render = function() {
                       }
                     }
                   })
-                ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "small",
+                  { staticClass: " text-red-700 px-4 py-3 rounded relative" },
+                  [_vm._v(_vm._s(_vm.error_insurer) + " ")]
+                )
               ]),
               _vm._v(" "),
               _c(
@@ -39302,7 +39402,15 @@ var render = function() {
                           )
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "small",
+                      {
+                        staticClass: " text-red-700 px-4 py-3 rounded relative"
+                      },
+                      [_vm._v(_vm._s(_vm.error_name) + " ")]
+                    )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: " w-1/2 px-3" }, [
@@ -39351,7 +39459,15 @@ var render = function() {
                           )
                         }
                       }
-                    })
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "small",
+                      {
+                        staticClass: " text-red-700 px-4 py-3 rounded relative"
+                      },
+                      [_vm._v(_vm._s(_vm.error_address) + " ")]
+                    )
                   ])
                 ]
               ),
@@ -39399,7 +39515,13 @@ var render = function() {
                         _vm.$set(_vm.policy, "premium", $event.target.value)
                       }
                     }
-                  })
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "small",
+                    { staticClass: " text-red-700 px-4 py-3 rounded relative" },
+                    [_vm._v(_vm._s(_vm.error_premium) + " ")]
+                  )
                 ])
               ]),
               _vm._v(" "),
@@ -39460,6 +39582,12 @@ var render = function() {
                       _vm._v(" "),
                       _c("option", [_vm._v("Motor Fleet")])
                     ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "small",
+                    { staticClass: " text-red-700 px-4 py-3 rounded relative" },
+                    [_vm._v(_vm._s(_vm.error_policy_type) + " ")]
                   )
                 ])
               ]),
@@ -39512,7 +39640,13 @@ var render = function() {
                       }
                     }
                   })
-                ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "small",
+                  { staticClass: " text-red-700 px-4 py-3 rounded relative" },
+                  [_vm._v(_vm._s(_vm.error_insurer) + " ")]
+                )
               ]),
               _vm._v(" "),
               _c(
