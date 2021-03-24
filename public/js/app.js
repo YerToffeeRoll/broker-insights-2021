@@ -1860,6 +1860,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -1909,20 +1939,188 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      policies: []
+      policies: [],
+      name: [],
+      currentSort: 'name',
+      currentSortDir: 'asc',
+      pageSize: 50,
+      currentPage: 1
     };
   },
   created: function created() {
     var _this = this;
 
     this.axios.get('/api/policies').then(function (response) {
-      _this.policies = response.data;
+      _this.policies = response.data.data.client.policies;
+      _this.name = response.data.data.client.name;
     });
   },
   methods: {
+    sort: function sort(s) {
+      //if s == current sort, reverse
+      if (s === this.currentSort) {
+        this.currentSortDir = this.currentSortDir === 'asc' ? 'desc' : 'asc';
+      }
+
+      this.currentSort = s;
+    },
     deletePolicy: function deletePolicy(id) {
       var _this2 = this;
 
@@ -1932,6 +2130,29 @@ __webpack_require__.r(__webpack_exports__);
         }).indexOf(id);
 
         _this2.policies.splice(i, 1);
+      });
+    },
+    nextPage: function nextPage() {
+      if (this.currentPage * this.pageSize < this.cats.length) this.currentPage++;
+    },
+    prevPage: function prevPage() {
+      if (this.currentPage > 1) this.currentPage--;
+    }
+  },
+  computed: {
+    sortedPolicies: function sortedPolicies() {
+      var _this3 = this;
+
+      return this.policies.sort(function (a, b) {
+        var modifier = 1;
+        if (_this3.currentSortDir === 'desc') modifier = -1;
+        if (a[_this3.currentSort] < b[_this3.currentSort]) return -1 * modifier;
+        if (a[_this3.currentSort] > b[_this3.currentSort]) return 1 * modifier;
+        return 0;
+      }).filter(function (row, index) {
+        var start = (_this3.currentPage - 1) * _this3.pageSize;
+        var end = _this3.currentPage * _this3.pageSize;
+        if (index >= start && index < end) return true;
       });
     }
   }
@@ -1950,6 +2171,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2054,6 +2326,55 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2063,15 +2384,15 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    this.axios.get("/api/policies/".concat(this.$route.params.id)).then(function (res) {
-      _this.policy = res.data;
+    this.axios.get("/api/policies/".concat(this.$route.params.id)).then(function (response) {
+      _this.policy = response.data.data;
     });
   },
   methods: {
     updatePolicy: function updatePolicy() {
       var _this2 = this;
 
-      this.axios.patch("/api/policies/".concat(this.$route.params.id), this.policy).then(function (res) {
+      this.axios.patch("/api/policies/".concat(this.$route.params.id), this.policy).then(function (response) {
         _this2.$router.push({
           name: 'home'
         });
@@ -34771,6 +35092,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/css/app.css":
+/*!*******************************!*\
+  !*** ./resources/css/app.css ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./node_modules/popper.js/dist/esm/popper.js":
 /*!***************************************************!*\
   !*** ./node_modules/popper.js/dist/esm/popper.js ***!
@@ -37915,35 +38249,141 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "container" },
+    { staticClass: "container-fluid" },
     [
       _c(
         "nav",
-        { staticClass: "navbar navbar-expand-lg navbar-light bg-light" },
+        {
+          staticClass: "bg-white shadow rounded-lg mb-10",
+          attrs: { role: "navigation" }
+        },
         [
-          _c("div", { staticClass: "collapse navbar-collapse" }, [
-            _c(
-              "div",
-              { staticClass: "navbar-nav" },
-              [
+          _c(
+            "div",
+            {
+              staticClass:
+                "container-fluid p-4 mx-auto  flex flex-wrap items-center md:flex-no-wrap  "
+            },
+            [
+              _c("div", { staticClass: "mr-4 md:mr-8" }, [
+                _c("a", { attrs: { href: "#", rel: "home" } }, [
+                  _c(
+                    "svg",
+                    {
+                      staticClass: "w-10 h-10 text-purple-600",
+                      attrs: {
+                        width: "54",
+                        height: "54",
+                        viewBox: "0 0 54 54",
+                        xmlns: "http://www.w3.org/2000/svg"
+                      }
+                    },
+                    [
+                      _c("title", [_vm._v("BrokerInsights")]),
+                      _vm._v(" "),
+                      _c("path", {
+                        attrs: {
+                          fill: "currentColor",
+                          d:
+                            "M13.5 22.1c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05zM0 38.3c1.8-7.2 6.3-10.8 13.5-10.8 10.8 0 12.15 8.1 17.55 9.45 3.6.9 6.75-.45 9.45-4.05-1.8 7.2-6.3 10.8-13.5 10.8-10.8 0-12.15-8.1-17.55-9.45-3.6-.9-6.75.45-9.45 4.05z"
+                        }
+                      })
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "ml-auto md:hidden" }, [
                 _c(
-                  "router-link",
-                  { staticClass: "nav-item nav-link", attrs: { to: "/" } },
-                  [_vm._v("Policy List")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "router-link",
+                  "button",
                   {
-                    staticClass: "nav-item nav-link",
-                    attrs: { to: "/create" }
+                    staticClass: "flex items-center px-3 py-2 border rounded",
+                    attrs: { type: "button" }
                   },
-                  [_vm._v("Create Policy")]
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "h-3 w-3",
+                        attrs: {
+                          viewBox: "0 0 20 20",
+                          xmlns: "http://www.w3.org/2000/svg"
+                        }
+                      },
+                      [
+                        _c("title", [_vm._v("Menu")]),
+                        _vm._v(" "),
+                        _c("path", {
+                          attrs: {
+                            d: "M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"
+                          }
+                        })
+                      ]
+                    )
+                  ]
                 )
-              ],
-              1
-            )
-          ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "w-full md:w-auto md:flex-grow md:flex md:items-center"
+                },
+                [
+                  _c("ul", {
+                    staticClass:
+                      "flex flex-col mt-4 -mx-4 pt-4 border-t md:flex-row md:items-center md:mx-0 md:mt-0 md:pt-0 md:mr-4 lg:mr-8 md:border-0"
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "ul",
+                    {
+                      staticClass:
+                        "flex flex-col mt-4 -mx-4 pt-4 border-t md:flex-row md:items-center md:mx-0 md:ml-auto md:mt-0 md:pt-0 md:border-0"
+                    },
+                    [
+                      _c(
+                        "li",
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "block px-4 py-1 md:p-2 lg:px-4",
+                              attrs: {
+                                to: "/",
+                                "active-class": "text-purple-600"
+                              }
+                            },
+                            [_vm._v("Policy List")]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "li",
+                        [
+                          _c(
+                            "router-link",
+                            {
+                              staticClass: "block px-4 py-1 md:p-2 lg:px-4",
+                              attrs: {
+                                to: "/create",
+                                "active-class": "text-purple-600"
+                              }
+                            },
+                            [_vm._v("Create Policy")]
+                          )
+                        ],
+                        1
+                      )
+                    ]
+                  )
+                ]
+              )
+            ]
+          )
         ]
       ),
       _vm._v(" "),
@@ -37976,84 +38416,465 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("h2", { staticClass: "text-center" }, [_vm._v("Policy List")]),
-    _vm._v(" "),
-    _c("table", { staticClass: "table" }, [
-      _vm._m(0),
+    _c("div", { staticClass: "py-8" }, [
+      _c("div", [
+        _c(
+          "h2",
+          { staticClass: "text-2xl font-semibold leading-tightuppercase " },
+          [_vm._v(_vm._s(_vm.name))]
+        )
+      ]),
       _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.policies, function(policy) {
-          return _c("tr", { key: policy.id }, [
-            _c("td", [_vm._v(_vm._s(policy.customer_name))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(policy.customer_address))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(policy.premium))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(policy.policy_type))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(policy.insurer_name))]),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "div",
-                { staticClass: "btn-group", attrs: { role: "group" } },
-                [
-                  _c(
-                    "router-link",
-                    {
-                      staticClass: "btn btn-success",
-                      attrs: { to: { name: "edit", params: { id: policy.id } } }
-                    },
-                    [_vm._v("Edit")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-danger",
-                      on: {
-                        click: function($event) {
-                          return _vm.deletePolicy(policy.id)
+      _c("div", { staticClass: "-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 " }, [
+        _c("div", { staticClass: "flex ml-2 mr-2 justify-between" }, [
+          _c("div", { staticClass: "space-x-2 flex items-center" }, [
+            _c("span", { staticClass: "inline-flex rounded-md shadow-sm" }, [
+              _c("a", { attrs: { href: "/create" } }, [
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "py-2 px-4 border rounded-md text-sm leading-5 font-medium focus:outline-none focus:border-blue-300 focus:shadow-outline-blue transition duration-150 ease-in-out text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 border-indigo-600",
+                    attrs: { type: "button", "wire:click": "create()" }
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "inline-block w-5 h-5",
+                        attrs: {
+                          fill: "none",
+                          stroke: "currentColor",
+                          viewBox: "0 0 24 24",
+                          xmlns: "http://www.w3.org/2000/svg"
                         }
-                      }
-                    },
-                    [_vm._v("Delete")]
-                  )
-                ],
-                1
-              )
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "stroke-linecap": "round",
+                            "stroke-linejoin": "round",
+                            "stroke-width": "2",
+                            d: "M12 6v6m0 0v6m0-6h6m-6 0H6"
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(
+                      "\n                          New\n                      "
+                    )
+                  ]
+                )
+              ])
             ])
           ])
-        }),
-        0
-      )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex-col space-y-4" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "align-middle min-w-full overflow-x-auto shadow overflow-hidden sm:rounded-lg"
+          },
+          [
+            _c(
+              "table",
+              { staticClass: "min-w-full divide-y divide-cool-gray-200" },
+              [
+                _c("thead", [
+                  _c("tr", [
+                    _c("th", { staticClass: "px-6 py-3 bg-cool-gray-50" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "flex items-center space-x-1 text-left text-xs leading-4 font-medium text-cool-gray-500 uppercase tracking-wider group focus:outline-none focus:underline",
+                          on: {
+                            click: function($event) {
+                              return _vm.sort("customer_name")
+                            }
+                          }
+                        },
+                        [
+                          _c("span", [_vm._v("Customer Name")]),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            { staticClass: "relative flex items-center" },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  staticClass:
+                                    "w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+                                  attrs: {
+                                    fill: "none",
+                                    stroke: "currentColor",
+                                    viewBox: "0 0 24 24",
+                                    xmlns: "http://www.w3.org/2000/svg"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      "stroke-linecap": "round",
+                                      "stroke-linejoin": "round",
+                                      "stroke-width": "2",
+                                      d: "M5 15l7-7 7 7"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "px-6 py-3 bg-cool-gray-50" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "flex items-center space-x-1 text-left text-xs leading-4 font-medium text-cool-gray-500 uppercase tracking-wider group focus:outline-none focus:underline",
+                          on: {
+                            click: function($event) {
+                              return _vm.sort("customer_address")
+                            }
+                          }
+                        },
+                        [
+                          _c("span", [_vm._v("Customer Address")]),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            { staticClass: "relative flex items-center" },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  staticClass:
+                                    "w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+                                  attrs: {
+                                    fill: "none",
+                                    stroke: "currentColor",
+                                    viewBox: "0 0 24 24",
+                                    xmlns: "http://www.w3.org/2000/svg"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      "stroke-linecap": "round",
+                                      "stroke-linejoin": "round",
+                                      "stroke-width": "2",
+                                      d: "M5 15l7-7 7 7"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "px-6 py-3 bg-cool-gray-50" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "flex items-center space-x-1 text-left text-xs leading-4 font-medium text-cool-gray-500 uppercase tracking-wider group focus:outline-none focus:underline",
+                          on: {
+                            click: function($event) {
+                              return _vm.sort("premium")
+                            }
+                          }
+                        },
+                        [
+                          _c("span", [_vm._v("Premium")]),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            { staticClass: "relative flex items-center" },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  staticClass:
+                                    "w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+                                  attrs: {
+                                    fill: "none",
+                                    stroke: "currentColor",
+                                    viewBox: "0 0 24 24",
+                                    xmlns: "http://www.w3.org/2000/svg"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      "stroke-linecap": "round",
+                                      "stroke-linejoin": "round",
+                                      "stroke-width": "2",
+                                      d: "M5 15l7-7 7 7"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "px-6 py-3 bg-cool-gray-50" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "flex items-center space-x-1 text-left text-xs leading-4 font-medium text-cool-gray-500 uppercase tracking-wider group focus:outline-none focus:underline",
+                          on: {
+                            click: function($event) {
+                              return _vm.sort("policy_type")
+                            }
+                          }
+                        },
+                        [
+                          _c("span", [_vm._v("Policy Type")]),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            { staticClass: "relative flex items-center" },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  staticClass:
+                                    "w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+                                  attrs: {
+                                    fill: "none",
+                                    stroke: "currentColor",
+                                    viewBox: "0 0 24 24",
+                                    xmlns: "http://www.w3.org/2000/svg"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      "stroke-linecap": "round",
+                                      "stroke-linejoin": "round",
+                                      "stroke-width": "2",
+                                      d: "M5 15l7-7 7 7"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("th", { staticClass: "px-6 py-3 bg-cool-gray-50" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "flex items-center space-x-1 text-left text-xs leading-4 font-medium text-cool-gray-500 uppercase tracking-wider group focus:outline-none focus:underline",
+                          on: {
+                            click: function($event) {
+                              return _vm.sort("insurer_name")
+                            }
+                          }
+                        },
+                        [
+                          _c("span", [_vm._v("Insurer Name")]),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            { staticClass: "relative flex items-center" },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  staticClass:
+                                    "w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+                                  attrs: {
+                                    fill: "none",
+                                    stroke: "currentColor",
+                                    viewBox: "0 0 24 24",
+                                    xmlns: "http://www.w3.org/2000/svg"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      "stroke-linecap": "round",
+                                      "stroke-linejoin": "round",
+                                      "stroke-width": "2",
+                                      d: "M5 15l7-7 7 7"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c(
+                  "tbody",
+                  { staticClass: "bg-white divide-y divide-cool-gray-200" },
+                  _vm._l(_vm.sortedPolicies, function(policy) {
+                    return _c(
+                      "tr",
+                      {
+                        key: policy.id,
+                        staticClass: "bg-white",
+                        attrs: { "wire:loading.class.delay": "opacity-50" }
+                      },
+                      [
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "px-6 py-4 whitespace-no-wrap text-sm leading-5 text-cool-gray-900"
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(policy.customer_name) +
+                                "\n                                "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "px-6 py-4 whitespace-no-wrap text-sm leading-5 text-cool-gray-900"
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(policy.customer_address) +
+                                "\n                                "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "px-6 py-4 whitespace-no-wrap text-sm leading-5 text-cool-gray-900"
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(policy.premium) +
+                                "\n                                "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "px-6 py-4 whitespace-no-wrap text-sm leading-5 text-cool-gray-900"
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(policy.policy_type) +
+                                "\n                                "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "px-6 py-4 whitespace-no-wrap text-sm leading-5 text-cool-gray-900"
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(policy.insurer_name) +
+                                "\n                                "
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("td", {
+                          staticClass:
+                            "px-6 py-4 whitespace-no-wrap text-sm leading-5 text-cool-gray-900"
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "td",
+                          {
+                            staticClass:
+                              "px-6 py-4 whitespace-no-wrap text-sm leading-5 text-cool-gray-900"
+                          },
+                          [
+                            _c(
+                              "router-link",
+                              {
+                                staticClass:
+                                  "cursor-pointer bg-blue-600 hover:bg-blue-500 shadow-xl px-3 py-1 inline-block text-blue-100 hover:text-white rounded",
+                                attrs: {
+                                  to: {
+                                    name: "edit",
+                                    params: { id: policy.id }
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                                        Edit"
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "cursor-pointer bg-red-600 hover:bg-gray-500 shadow-xl px-3 py-1 inline-block text-orange-100 hover:text-white rounded",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.deletePolicy(policy.id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Delete")]
+                            )
+                          ],
+                          1
+                        )
+                      ]
+                    )
+                  }),
+                  0
+                )
+              ]
+            )
+          ]
+        )
+      ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Customer Name")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Customer Address")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Premium")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Policy Type")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Insurer Name")]),
-        _vm._v(" "),
-        _c("th", { attrs: { width: "100" } })
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -38076,11 +38897,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h3", { staticClass: "text-center" }, [_vm._v("Create Policy")]),
-    _vm._v(" "),
+  return _c("div", { staticClass: "rounded-lg" }, [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "col-md-12" }, [
         _c(
           "form",
           {
@@ -38092,152 +38911,308 @@ var render = function() {
             }
           },
           [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Name")]),
+            _c("div", { staticClass: "px-4 py-5 bg-white sm:p-6" }, [
+              _vm._m(0),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.policy.customer_name,
-                    expression: "policy.customer_name"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.policy.customer_name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.policy, "customer_name", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("customer_address")]),
+              _c(
+                "div",
+                { staticClass: "flex -mx-3 mt-10  w-full  mb-6 sm:rounded-lg" },
+                [
+                  _c("div", { staticClass: "w-1/2  px-3" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass:
+                          "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                        attrs: { for: "name" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                Customer Name\n                            "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.policy.customer_name,
+                          expression: "policy.customer_name"
+                        }
+                      ],
+                      staticClass:
+                        "appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-md py-3 px-4 mb-3",
+                      attrs: {
+                        id: "name",
+                        type: "text",
+                        name: "name",
+                        placeholder: "Customer Name....",
+                        value: ""
+                      },
+                      domProps: { value: _vm.policy.customer_name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.policy,
+                            "customer_name",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: " w-1/2 px-3" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass:
+                          "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                        attrs: { for: "customerAddress" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                Customer Address\n                            "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.policy.customer_address,
+                          expression: "policy.customer_address"
+                        }
+                      ],
+                      staticClass:
+                        "appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-md py-3 px-4 mb-3",
+                      attrs: {
+                        id: "customerAddress",
+                        type: "text",
+                        name: "customerAddress",
+                        placeholder: "123 Street.... ",
+                        value: ""
+                      },
+                      domProps: { value: _vm.policy.customer_address },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.policy,
+                            "customer_address",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]
+              ),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.policy.customer_address,
-                    expression: "policy.customer_address"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.policy.customer_address },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(
-                      _vm.policy,
-                      "customer_address",
-                      $event.target.value
-                    )
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("premium")]),
+              _c("div", { staticClass: "-mx-3 w-full md:w-1/2  mb-6" }),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.policy.premium,
-                    expression: "policy.premium"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.policy.premium },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "-mx-3 md:w-full mb-6" }, [
+                _c("div", { staticClass: "md:w-full px-3" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                      attrs: { for: "premium" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Premium\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.policy.premium,
+                        expression: "policy.premium"
+                      }
+                    ],
+                    staticClass:
+                      "appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-md py-3 px-4 mb-3",
+                    attrs: {
+                      id: "premium",
+                      type: "text",
+                      name: "premium",
+                      placeholder: "£123.00",
+                      value: ""
+                    },
+                    domProps: { value: _vm.policy.premium },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.policy, "premium", $event.target.value)
+                      }
                     }
-                    _vm.$set(_vm.policy, "premium", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("policy_type")]),
+                  })
+                ])
+              ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.policy.policy_type,
-                    expression: "policy.policy_type"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.policy.policy_type },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.policy, "policy_type", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("insurer_name")]),
+              _c("div", { staticClass: "-mx-3 md:w-full mb-6" }, [
+                _c("div", { staticClass: "md:w-full px-3" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                      attrs: { for: "policyType" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Policy Type\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.policy.policy_type,
+                          expression: "policy.policy_type"
+                        }
+                      ],
+                      staticClass:
+                        "block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded",
+                      attrs: { id: "policyType" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.policy,
+                            "policy_type",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { selected: "", disabled: "" } }, [
+                        _vm._v("Please select")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", [_vm._v("Public Liability")]),
+                      _vm._v(" "),
+                      _c("option", [_vm._v("Motor Fleet")]),
+                      _vm._v(" "),
+                      _c("option", [_vm._v("Motor Fleet")])
+                    ]
+                  )
+                ])
+              ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.policy.insurer_name,
-                    expression: "policy.insurer_name"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.policy.insurer_name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "-mx-3 md:w-full mb-6" }, [
+                _c("div", { staticClass: "md:w-full px-3" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                      attrs: { for: "insurerName" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Insurer Name\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.policy.insurer_name,
+                        expression: "policy.insurer_name"
+                      }
+                    ],
+                    staticClass:
+                      "appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-md py-3 px-4 mb-3",
+                    attrs: {
+                      id: "insurerName",
+                      type: "text",
+                      name: "insurerName",
+                      placeholder: "Axa Insurance",
+                      value: ""
+                    },
+                    domProps: { value: _vm.policy.insurer_name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.policy,
+                          "insurer_name",
+                          $event.target.value
+                        )
+                      }
                     }
-                    _vm.$set(_vm.policy, "insurer_name", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c(
-              "button",
-              { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-              [_vm._v("Create")]
-            )
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "cursor-pointer bg-blue-600 hover:bg-blue-500 shadow-xl px-5 py-2 inline-block text-blue-100 hover:text-white rounded",
+                  attrs: { type: "submit" }
+                },
+                [_vm._v("Create")]
+              )
+            ])
           ]
         )
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "-mx-3 md:w-full mb-6" }, [
+      _c("div", { staticClass: "md:w-full px-3" }, [
+        _c("h3", { staticClass: "text-lg font-medium text-gray-900" }, [
+          _vm._v("Create Policy")
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -38260,11 +39235,9 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h3", { staticClass: "text-center" }, [_vm._v("Edit Policy")]),
-    _vm._v(" "),
+  return _c("div", { staticClass: "rounded-lg" }, [
     _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }, [
+      _c("div", { staticClass: "col-md-12" }, [
         _c(
           "form",
           {
@@ -38276,152 +39249,302 @@ var render = function() {
             }
           },
           [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Name")]),
+            _c("div", { staticClass: "px-4 py-5 bg-white sm:p-6" }, [
+              _vm._m(0),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.policy.customer_name,
-                    expression: "policy.customer_name"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.policy.customer_name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.policy, "customer_name", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("customer_address")]),
+              _c(
+                "div",
+                { staticClass: "flex -mx-3 mt-10  w-full  mb-6 sm:rounded-lg" },
+                [
+                  _c("div", { staticClass: "w-1/2  px-3" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass:
+                          "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                        attrs: { for: "name" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                Customer Name\n                            "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.policy.customer_name,
+                          expression: "policy.customer_name"
+                        }
+                      ],
+                      staticClass:
+                        "appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-md py-3 px-4 mb-3",
+                      attrs: {
+                        id: "name",
+                        type: "text",
+                        name: "name",
+                        placeholder: "Customer Name....",
+                        value: ""
+                      },
+                      domProps: { value: _vm.policy.customer_name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.policy,
+                            "customer_name",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: " w-1/2 px-3" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass:
+                          "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                        attrs: { for: "customerAddress" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                Customer Address\n                            "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.policy.customer_address,
+                          expression: "policy.customer_address"
+                        }
+                      ],
+                      staticClass:
+                        "appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-md py-3 px-4 mb-3",
+                      attrs: {
+                        id: "customerAddress",
+                        type: "text",
+                        name: "customerAddress",
+                        placeholder: "123 Street.... ",
+                        value: ""
+                      },
+                      domProps: { value: _vm.policy.customer_address },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.policy,
+                            "customer_address",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]
+              ),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.policy.customer_address,
-                    expression: "policy.customer_address"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.policy.customer_address },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "-mx-3 md:w-full mb-6" }, [
+                _c("div", { staticClass: "md:w-full px-3" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                      attrs: { for: "premium" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Premium\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.policy.premium,
+                        expression: "policy.premium"
+                      }
+                    ],
+                    staticClass:
+                      "appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-md py-3 px-4 mb-3",
+                    attrs: {
+                      id: "premium",
+                      type: "text",
+                      name: "premium",
+                      placeholder: "£123.00",
+                      value: ""
+                    },
+                    domProps: { value: _vm.policy.premium },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.policy, "premium", $event.target.value)
+                      }
                     }
-                    _vm.$set(
-                      _vm.policy,
-                      "customer_address",
-                      $event.target.value
-                    )
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("premium")]),
+                  })
+                ])
+              ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.policy.premium,
-                    expression: "policy.premium"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.policy.premium },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.policy, "premium", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("policy_type")]),
+              _c("div", { staticClass: "-mx-3 md:w-full mb-6" }, [
+                _c("div", { staticClass: "md:w-full px-3" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                      attrs: { for: "policyType" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Policy Type\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.policy.policy_type,
+                          expression: "policy.policy_type"
+                        }
+                      ],
+                      staticClass:
+                        "block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded",
+                      attrs: { id: "policyType" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.policy,
+                            "policy_type",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", [_vm._v("Public Liability")]),
+                      _vm._v(" "),
+                      _c("option", [_vm._v("Motor Fleet")]),
+                      _vm._v(" "),
+                      _c("option", [_vm._v("Motor Fleet")])
+                    ]
+                  )
+                ])
+              ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.policy.policy_type,
-                    expression: "policy.policy_type"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.policy.policy_type },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+              _c("div", { staticClass: "-mx-3 md:w-full mb-6" }, [
+                _c("div", { staticClass: "md:w-full px-3" }, [
+                  _c(
+                    "label",
+                    {
+                      staticClass:
+                        "block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2",
+                      attrs: { for: "insurerName" }
+                    },
+                    [
+                      _vm._v(
+                        "\n                                Insurer Name\n                            "
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.policy.insurer_name,
+                        expression: "policy.insurer_name"
+                      }
+                    ],
+                    staticClass:
+                      "appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-md py-3 px-4 mb-3",
+                    attrs: {
+                      id: "insurerName",
+                      type: "text",
+                      name: "insurerName",
+                      placeholder: "Axa Insurance",
+                      value: ""
+                    },
+                    domProps: { value: _vm.policy.insurer_name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.policy,
+                          "insurer_name",
+                          $event.target.value
+                        )
+                      }
                     }
-                    _vm.$set(_vm.policy, "policy_type", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("insurer_name")]),
+                  })
+                ])
+              ]),
               _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.policy.insurer_name,
-                    expression: "policy.insurer_name"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.policy.insurer_name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.policy, "insurer_name", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c(
-              "button",
-              { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-              [_vm._v("Update")]
-            )
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "cursor-pointer bg-blue-600 hover:bg-blue-500 shadow-xl px-5 py-2 inline-block text-blue-100 hover:text-white rounded",
+                  attrs: { type: "submit" }
+                },
+                [_vm._v("Update")]
+              )
+            ])
           ]
         )
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "-mx-3 md:w-full mb-6" }, [
+      _c("div", { staticClass: "md:w-full px-3" }, [
+        _c("h3", { staticClass: "text-lg font-medium text-gray-900" }, [
+          _vm._v("Update Policy")
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -65846,7 +66969,8 @@ Vue.compile = compileToFunctions;
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
 /******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/sass/app.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

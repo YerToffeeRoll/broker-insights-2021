@@ -15,6 +15,8 @@ import { routes } from './routes';
 
 
 
+
+
 require('./bootstrap');
 window.Vue = require('vue');
 /**
