@@ -121,7 +121,7 @@
                                         {{ policy.customer_address }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-cool-gray-900">
-                                        {{ policy.premium }}
+                                        {{ policy.premium | currency }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-cool-gray-900">
                                         {{ policy.policy_type }}

@@ -2480,6 +2480,9 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_5__.default({
   mode: 'history',
   routes: _routes__WEBPACK_IMPORTED_MODULE_3__.routes
 });
+vue_dist_vue__WEBPACK_IMPORTED_MODULE_4___default().filter('currency', function (value) {
+  return '£' + parseFloat(value).toFixed(2);
+});
 var app = new (vue_dist_vue__WEBPACK_IMPORTED_MODULE_4___default())({
   el: '#app',
   router: router,
@@ -38382,7 +38385,8 @@ var render = function() {
                           _c(
                             "router-link",
                             {
-                              staticClass: "block px-4 py-1 md:p-2 lg:px-4",
+                              staticClass:
+                                "block text-gray-600 px-4 py-1 md:p-2 lg:px-4",
                               attrs: {
                                 to: "/",
                                 "active-class": "text-purple-600"
@@ -38400,7 +38404,8 @@ var render = function() {
                           _c(
                             "router-link",
                             {
-                              staticClass: "block px-4 py-1 md:p-2 lg:px-4",
+                              staticClass:
+                                "block text-gray-600 px-4 py-1 md:p-2 lg:px-4",
                               attrs: {
                                 to: "/create",
                                 "active-class": "text-purple-600"
@@ -38811,7 +38816,7 @@ var render = function() {
                           [
                             _vm._v(
                               "\n                                    " +
-                                _vm._s(policy.premium) +
+                                _vm._s(_vm._f("currency")(policy.premium)) +
                                 "\n                                "
                             )
                           ]

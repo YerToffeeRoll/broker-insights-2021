@@ -28,9 +28,17 @@ window.Vue = require('vue');
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 
+
+
+
 const router = new VueRouter({
     mode: 'history',
     routes: routes
+});
+
+
+Vue.filter('currency', function(value) {
+    return '£' + parseFloat(value).toFixed(2);
 });
 
 const app = new Vue({
