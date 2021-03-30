@@ -22,7 +22,7 @@ class Policy extends Model
      * @var array
      */
     protected $fillable = [
-        'customer_name', 'customer_address', 'premium', 'policy_type', 'insurer_name',
+       'premium', 'policy_type',
     ];
 
 
